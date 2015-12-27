@@ -1,8 +1,7 @@
 package robotlegs.controller
 {
 	import com.greensock.events.LoaderEvent;
-
-	import flash.display.DisplayObject;
+	import com.greensock.loading.ImageLoader;
 
 	import org.robotlegs.mvcs.Command;
 
@@ -12,7 +11,6 @@ package robotlegs.controller
 
 	import robotlegs.service.ILoadService;
 	import robotlegs.view.GalleryItem;
-	import robotlegs.view.ImageContainer;
 
 	/**
 	 * LoadImagesCommand.
@@ -37,27 +35,25 @@ package robotlegs.controller
 
 		override public function execute():void
 		{
-			for (var i:int = 0; i < galleryModel.linksList.length; i++)
+			for (var i:int = 0; i < Config.FIRST_QUEUE; i++)
 			{
 				loader.add(galleryModel.linksList[i], onLoad);
 			}
+			galleryModel.lastLoadedIndex = i;
 			loader.load(onAllImagesLoaded);
 		}
 
 		private function onLoad(result: LoaderEvent): void
 		{
 			eventDispatcher.dispatchEvent(new ImageEvent(ImageEvent.IMAGE_READY, result.target.content));
-			var item:GalleryItem = galleryFabric.createItem(result.target.content);
+			var item:GalleryItem = galleryFabric.createItem(result.target as ImageLoader);
 			galleryModel.loadedItems.push(item);
-
-			trace("onLoad");
 		}
 
 
 
 		private function onAllImagesLoaded(): void
 		{
-			trace("that's all, folks!");
 			eventDispatcher.dispatchEvent(new SystemEvent(SystemEvent.SORT_IMAGES_REQUESTED));
 		}
 	}

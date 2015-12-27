@@ -1,6 +1,7 @@
 package robotlegs.controller
 {
 	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.ImageLoader;
 
 	import flash.geom.Point;
 
@@ -44,30 +45,48 @@ package robotlegs.controller
 
 		override public function execute():void
 		{
-//			loader.add("http://www.extremetech.com/wp-content/uploads/2013/09/4Vln8-640x428.jpg", onLoad);
-			loader.add("http://justsomething.co/wp-content/uploads/2014/04/most-adorable-animals-5.jpg", onLoad);
+			var loadedUrl:Array = [];
+			var url:String = "";
+			for (var i:int = 0; i < galleryModel.loadedItems.length; i++)
+			{
+				url = galleryModel.loadedItems[i].url;
+				loadedUrl.push(url);
+			}
+			while (loadedUrl.indexOf(url) > -1)
+			{
+				galleryModel.lastLoadedIndex++;
+				if (galleryModel.lastLoadedIndex >= galleryModel.linksList.length)
+				{
+					galleryModel.lastLoadedIndex = 0;
+				}
+				url = galleryModel.linksList[galleryModel.lastLoadedIndex];
+			}
 
-			// добавить проверку, не загружается ли сейчас
-			loader.load(null);
+			loader.add(url, onLoad);
+
+			if (!loader.isLoaded)
+			{
+				loader.load(null);
+			}
 		}
 
 		private function onLoad(result: LoaderEvent): void
 		{
 			eventDispatcher.dispatchEvent(new ImageEvent(ImageEvent.IMAGE_READY, result.target.content));
-			var item:GalleryItem = galleryFabric.createItem(result.target.content);
+			var item:GalleryItem = galleryFabric.createItem(result.target as ImageLoader);
 			galleryModel.loadedItems.push(item);
 			var addPoint:Point = event.data as Point;
 			item.source.x = addPoint.x;
 			item.source.y = addPoint.y;
 			item.fadeSignal.dispatch(false, onCreated );
-
-			trace("onCreate");
 		}
 
 		private function onCreated(): void
 		{
-			eventDispatcher.dispatchEvent(new SystemEvent(SystemEvent.SORT_IMAGES_REQUESTED));
-//			eventDispatcher.dispatchEvent(new SystemEvent(SystemEvent.UPDATE_FIELD_REQUESTED));
+			if (!loader.isLoaded)
+			{
+				eventDispatcher.dispatchEvent(new SystemEvent(SystemEvent.SORT_IMAGES_REQUESTED));
+			}
 		}
 
 	}

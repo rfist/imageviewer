@@ -25,7 +25,6 @@ package robotlegs.controller
 
 		override public function execute():void
 		{
-			trace('UpdateFieldCommand');
 			var parentObject:DisplayObject = galleryModel.loadedItems[0].source.parent;
 
 			const Y_OFFSET:int = (parentObject.height - Config.IMAGE_HEIGHT * galleryModel.sortedImages.length) / ((galleryModel.sortedImages.length - 1) * 2 );

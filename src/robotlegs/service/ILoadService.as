@@ -8,5 +8,7 @@ package robotlegs.service
 		function add(url: String, onComplete: Function): void
 
 		function load(onComplete: Function): void
+
+		function get isLoaded(): Boolean
 	}
 }
