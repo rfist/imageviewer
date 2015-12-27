@@ -43,6 +43,19 @@ package robotlegs.controller
 			sortImages();
 		}
 
+		public function testExecute(arr: Array, onComplete: Function): void
+		{
+			first_fit(arr);
+			while (true)
+			{
+				if (!swap())
+				{
+					break;
+				}
+			}
+			onComplete(_bins, _binSizes);
+		}
+
 		private function sortImages(): void
 		{
 			var images:Vector.<GalleryItem> = galleryModel.loadedItems.concat();
