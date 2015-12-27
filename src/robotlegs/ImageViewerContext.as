@@ -36,7 +36,6 @@ package robotlegs
 		override public function startup():void
 		{
 			// Controller
-//			commandMap.mapEvent(SystemEvent.CLEAR_LOG_REQUESTED, TryClearMessages);
 			commandMap.mapEvent(SystemEvent.SHOW_IMAGES_REQUESTED, ShowImagesCommand);
 			commandMap.mapEvent(SystemEvent.LOAD_IMAGES_REQUESTED, LoadImagesCommand);
 			commandMap.mapEvent(SystemEvent.SORT_IMAGES_REQUESTED, SortByWidthCommand);
@@ -46,11 +45,8 @@ package robotlegs
 			// Model
 			injector.mapSingleton(GalleryModel);
 			injector.mapSingleton(GalleryFabric);
-//			injector.mapSingleton(UserProxy);
-//			injector.mapSingleton(MessageModel);
 			// Services
 			injector.mapSingletonOf(ILoadService, ImageLoaderService);
-//			injector.mapSingletonOf(IAuthService, DummyAuthService);
 			// View
 			mediatorMap.mapView(ImageContainer, ImageContainerMediator);
 			mediatorMap.mapView(GalleryItem, GalleryItem);
