@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!--
+  Created by Vladimir on 26.12.2015.
+-->
+<mx:Image xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx" >
+</mx:Image>
