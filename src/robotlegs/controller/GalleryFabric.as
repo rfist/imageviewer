@@ -1,5 +1,7 @@
 package robotlegs.controller
 {
+	import com.greensock.loading.ImageLoader;
+
 	import flash.display.DisplayObject;
 
 	import org.robotlegs.mvcs.Command;
@@ -31,12 +33,13 @@ package robotlegs.controller
 
 		}
 
-		public function createItem(img: DisplayObject): GalleryItem
+		public function createItem(loader: ImageLoader): GalleryItem
 		{
+			var img:DisplayObject = loader.content;
 			img.height = Config.IMAGE_HEIGHT;
 			img.scaleX = img.scaleY;
 			img.alpha = 0;
-			var item:GalleryItem = new GalleryItem(img);
+			var item:GalleryItem = new GalleryItem(loader);
 			injector.injectInto(item);
 			return item;
 		}

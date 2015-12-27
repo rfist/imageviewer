@@ -1,6 +1,7 @@
 package robotlegs.view
 {
 	import com.greensock.TweenLite;
+	import com.greensock.loading.ImageLoader;
 
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -21,10 +22,12 @@ package robotlegs.view
 		private var _source:DisplayObject;
 		public var fadeSignal:Signal;
 		public var clickSignal:NativeSignal;
+		private var _url:String = "";
 
-		public function GalleryItem(image: DisplayObject)
+		public function GalleryItem(loader: ImageLoader)
 		{
-			_source = image;
+			_source = loader.content;
+			_url = loader.request.url;
 			fadeSignal = new Signal(Boolean);
 			clickSignal = new NativeSignal(_source, MouseEvent.CLICK, MouseEvent);
 			fadeSignal.add(onFade);
@@ -50,7 +53,6 @@ package robotlegs.view
 
 		private function onFade(fade: Boolean, onComplete: Function = null): void
 		{
-			trace('onFade', fade);
 			var params:Object = {};
 			params.alpha = fade ? 0 : 1;
 			if (onComplete != null)
@@ -70,5 +72,9 @@ package robotlegs.view
 			eventDispatcher.dispatchEvent(new ImageEvent(ImageEvent.DELETE_ITEM_REQUESTED, this));
 		}
 
+		public function get url():String
+		{
+			return _url;
+		}
 	}
 }

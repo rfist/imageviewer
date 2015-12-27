@@ -53,7 +53,6 @@ package robotlegs.controller
 			}
 			commandMap.unmapEvent(SystemEvent.SHOW_IMAGES_REQUESTED, ShowImagesCommand);
 			commandMap.mapEvent(SystemEvent.SHOW_IMAGES_REQUESTED, UpdateFieldCommand);
-			trace("ShowImagesCommand");
 		}
 
 	}

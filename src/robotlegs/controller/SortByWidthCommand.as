@@ -39,9 +39,7 @@ package robotlegs.controller
 				{
 					break;
 				}
-				traceResults('swap');
 			}
-			traceResults('finish');
 			sortImages();
 		}
 
@@ -56,16 +54,13 @@ package robotlegs.controller
 				{
 					for (var i:int = 0; i < images.length; i++)
 					{
-						trace('compare', int(_bins[a][b]), int(images[i].source.width), i);
 						if (int(_bins[a][b]) == int(images[i].source.width))
 						{
 							sortedImages[a].push(images[i]);
-							trace('get it!');
 							images.splice(i, 1);
 							break;
 						}
 					}
-					trace("can't find", int(_bins[a][b]));
 				}
 			}
 			galleryModel.sortedImages = sortedImages;
@@ -111,7 +106,6 @@ package robotlegs.controller
 								var new_b:Number = _binSizes[i_b] - pic_b + pic_a;
 								if (Math.abs(_average - new_a) < _maxDeviation && Math.abs(_average - new_b) < _maxDeviation)
 								{
-									trace('find it!');
 									_binSizes[i_a] = new_a;
 									_binSizes[i_b] = new_b;
 									_bins[i_a].splice(_bins[i_a].indexOf(pic_a), 1);
@@ -156,7 +150,6 @@ package robotlegs.controller
 		private function first_fit(items: Array, bincount: int = Config.DEFAULT_ROWS): void
 		{
 			items.sort(Array.NUMERIC | Array.DESCENDING);
-			trace("first fit", items);
 			for (var i:int = 0; i < bincount; i++)
 			{
 				_bins.push([]);
@@ -166,7 +159,6 @@ package robotlegs.controller
 			for (var j:int = 0; j < items.length; j++)
 			{
 				var minBinIndex:int = _binSizes.indexOf(Math.min.apply(null, _binSizes));
-				trace("minBinIndex", minBinIndex, items[j]);
 				_bins[minBinIndex].push(items[j]);
 				_binSizes[minBinIndex] += items[j];
 			}
@@ -179,22 +171,6 @@ package robotlegs.controller
 			}
 
 			_maxDeviation = Math.max.apply(null, deviations);
-
-			traceResults("first step");
-		}
-
-		private function traceResults(step: String): void
-		{
-			trace("step", step);
-			trace('_bins', _bins[0]);
-			trace('_bins', _bins[1]);
-			trace('_bins', _bins[2]);
-			trace('_bins', _bins[3]);
-
-			trace('_binSizes', _binSizes);
-			trace('average', _average);
-			trace('_maxDeviation', _maxDeviation);
-			trace(_bins);
 		}
 
 		private function sum(input:Array):Number

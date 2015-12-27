@@ -4,6 +4,8 @@ package robotlegs.service
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
 
+	import mx.controls.Alert;
+
 	import org.robotlegs.mvcs.Actor;
 
 	/**
@@ -29,9 +31,6 @@ package robotlegs.service
 			}
 			var loader:ImageLoader = new ImageLoader(url, {name:"photo1", container:this, centerRegistration:false, onComplete:onComplete});
 
-			//begin loading
-//			loader.load();
-
 			//append the ImageLoader and several other loaders
 			_queue.append( loader );
 		}
@@ -40,11 +39,25 @@ package robotlegs.service
 		{
 			_onComplete = onComplete;
 			//start loading
-			trace("queue", _queue.status);
-			if (_queue.status == 0)
+			if (!_queue)
+			{
+				Alert.show("Error, there is no queue for load!");
+			}
+			else
+			if (!isLoaded)
 			{
 				_queue.load();
 			}
+		}
+
+		public function get isLoaded(): Boolean
+		{
+			if (_queue)
+			{
+				return _queue.status == 1;
+			}
+
+			return false;
 		}
 
 
